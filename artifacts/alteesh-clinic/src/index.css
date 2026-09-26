@@ -52,7 +52,8 @@
 .sidebar { position: fixed; inset-block: 0; inset-inline-start: 0; z-index: 40; display: flex; width: 260px; flex-direction: column; border-left: 1px solid hsl(var(--border)); background: hsl(var(--card)); padding: 28px 20px 22px; }
 .topbar { display: flex; height: 72px; align-items: center; border-bottom: 1px solid hsl(var(--border)); padding: 0 30px; background: hsl(var(--background) / .86); backdrop-filter: blur(10px); }
 .page-wrap { margin: 0 auto; max-width: 1440px; padding: 32px 30px 60px; }
-.logo-mark { display:flex; height: 36px; width: 36px; align-items:center; justify-content:center; border-radius: 11px; background: hsl(var(--primary)); color:hsl(var(--primary-foreground)); box-shadow: 0 5px 12px hsl(var(--primary) / .18); }
+.logo-mark { display:flex; height: 44px; width: 52px; align-items:center; justify-content:center; overflow:hidden; border-radius: 11px; background: hsl(var(--secondary)); box-shadow: 0 5px 12px hsl(var(--primary) / .12); }
+.logo-mark img { display:block; height:100%; width:100%; object-fit:contain; }
 .nav-link { display:flex; align-items:center; gap:12px; border-radius:10px; padding:11px 12px; color:hsl(var(--muted-foreground)); font-size:14px; font-weight:600; transition:all .18s ease; }
 .nav-link:hover { background:hsl(var(--secondary)); color:hsl(var(--foreground)); }
 .nav-link-active { background:hsl(var(--primary) / .1); color:hsl(var(--primary)); }

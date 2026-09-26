@@ -12,7 +12,7 @@ const today = new Date();
 const dateString = (offset = 0) => { const d = new Date(today); d.setDate(d.getDate() + offset); return d.toISOString().slice(0, 10); };
 
 export const seedData: ClinicData = {
-  clinicName: 'عيادة التيش لطب الأسنان',
+  clinicName: 'Alteesh Clinic',
   patients: [
     { id: 'p1', fullName: 'رنا خالد المصري', fileNumber: 'AL-2048', phone: '09 456 7821', lastVisit: dateString(-9), treatment: 'ترميم ضرس', status: 'متابعة' },
     { id: 'p2', fullName: 'محمد سامر الحمصي', fileNumber: 'AL-2017', phone: '09 821 3345', lastVisit: dateString(-21), treatment: 'تقويم أسنان', status: 'متابعة' },
@@ -49,7 +49,19 @@ export const seedData: ClinicData = {
 };
 
 const STORAGE_KEY = 'alteesh-clinic-data-v1';
-const readData = (): ClinicData => { try { const saved = localStorage.getItem(STORAGE_KEY); return saved ? JSON.parse(saved) : seedData; } catch { return seedData; } };
+const readData = (): ClinicData => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return seedData;
+    const parsed = JSON.parse(saved) as ClinicData;
+    if (parsed.clinicName === 'عيادة التيش لطب الأسنان' || parsed.clinicName === 'التيش') {
+      return { ...parsed, clinicName: 'Alteesh Clinic' };
+    }
+    return parsed;
+  } catch {
+    return seedData;
+  }
+};
 
 export function useClinicData() {
   const [data, setData] = useState<ClinicData>(readData);
