@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Alteesh Clinic"
+description = "تطبيق عربي لإدارة عيادة الأسنان يجمع لوحة الإدارة والمرضى والمواعيد في مساحة واحدة، مع تقويم جدولة يومي واضح وإدارة محلية للبيانات."
+version = "1.0.0"
+id = "artifacts/alteesh-clinic"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21610
+
+[services.development]
+run = "pnpm --filter @workspace/alteesh-clinic run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/alteesh-clinic", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/alteesh-clinic/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21610"
+BASE_PATH = "/"
