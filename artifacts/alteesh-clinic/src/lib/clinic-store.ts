@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 
 export type AppointmentStatus = 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
 export type Patient = { id: string; fullName: string; fileNumber: string; phone: string; lastVisit: string; treatment: string; status: 'متابعة' | 'جديد' | 'مكتمل' };
-export type Doctor = { id: string; name: string; specialty: string; room?: string; color: string; active: boolean };
+export type Doctor = { id: string; name: string; specialty: string; room?: string; color: string; active: boolean; passwordHash?: string; mustChangePassword?: boolean };
 export type Chair = { id: string; name: string; room: string; specialty?: string; color: string; active: boolean };
 export type Appointment = { id: string; patientId: string; patientName: string; doctorId: string; doctorName: string; chairId: string; chairName: string; date: string; startTime: string; endTime: string; procedure: string; status: AppointmentStatus; notes: string; color: string };
 export type Activity = { id: string; text: string; time: string; type: 'appointment' | 'patient' | 'team' | 'system' };
 export type ClinicData = { patients: Patient[]; doctors: Doctor[]; chairs: Chair[]; appointments: Appointment[]; activities: Activity[]; clinicName: string };
+export type AuthConfig = { managerPasswordHash: string; managerName: string };
+export type AuthSession = { role: 'manager' | 'doctor'; doctorId?: string; displayName: string };
 
 const today = new Date();
 const dateString = (offset = 0) => { const d = new Date(today); d.setDate(d.getDate() + offset); return d.toISOString().slice(0, 10); };
@@ -49,6 +51,7 @@ export const seedData: ClinicData = {
 };
 
 const STORAGE_KEY = 'alteesh-clinic-data-v1';
+const AUTH_STORAGE_KEY = 'alteesh-clinic-auth-v1';
 const readData = (): ClinicData => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -61,6 +64,19 @@ const readData = (): ClinicData => {
   } catch {
     return seedData;
   }
+};
+
+export const readAuthConfig = (): AuthConfig | null => {
+  try {
+    const saved = localStorage.getItem(AUTH_STORAGE_KEY);
+    return saved ? JSON.parse(saved) as AuthConfig : null;
+  } catch {
+    return null;
+  }
+};
+
+export const saveAuthConfig = (config: AuthConfig) => {
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(config));
 };
 
 export function useClinicData() {
